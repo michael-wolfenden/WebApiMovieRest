@@ -1,0 +1,86 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "resourcePath": "api/v1",
+    "produces": [
+        "application/json",
+        "application/xml"
+    ],
+    "apis": [
+        {
+            "path": "/genres",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Find all genres",
+                    "notes": "Find all genres",
+                    "type": "genresResponse",
+                    "nickname": "getGenres",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/genres/{genreId}",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Find a genre by Id",
+                    "notes": "Finds a genre based on Id",
+					"type": "genresResponse",
+                    "nickname": "getGenreById",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "genreId",
+                            "description": "Id of genre to find",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "string",
+                            "paramType": "path",
+							"defaultValue": "00000000-0000-0000-0000-000000000000"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "Genre not found"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "models": {
+        "genresResponse": {
+            "id": "",
+            "properties": {
+                "genres": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "genre"
+                    }
+                }
+            }
+        },
+        "genre": {
+            "id": "genre",
+            "properties": {
+                "id": {
+                    "type": "string",
+					"required": true
+                },
+                "name": {
+                    "type": "string",
+					"required": true
+                }
+            }
+        }
+    }
+}

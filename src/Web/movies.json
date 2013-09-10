@@ -1,0 +1,285 @@
+{
+    "apiVersion": "1.0.0",
+    "swaggerVersion": "1.2",
+    "resourcePath": "api/v1",
+    "produces": [
+        "application/json",
+        "application/xml"
+    ],
+    "apis": [
+        {
+            "path": "/movies",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Returns all movies",
+                    "notes": "Returns all movies",
+                    "type": "moviesResponse",
+                    "nickname": "getMovies",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "genre",
+                            "description": "Genre to filter movies by",
+                            "required": false,
+                            "allowMultiple": false,
+                            "type": "string",
+							"paramType": "query"
+                        }
+                    ]
+                },
+                {
+                    "method": "POST",
+                    "summary": "Create a movie",
+                    "notes": "Create a movie",
+                    "type": "moviesResponse",
+                    "nickname": "createMovie",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "movie",
+                            "description": "Movie to create",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "movieRequest",
+							"paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Invalid request body"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/movies/{movieId}",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Return a movie",
+                    "notes": "Return a movie",
+                    "type": "moviesResponse",
+                    "nickname": "getMovie",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "description": "Id of movie to find",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "string",
+                            "paramType": "path",
+                            "defaultValue": "00000000-0000-0000-0000-000000000000"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "Movie not found"
+                        }
+                    ]
+                },
+                {
+                    "method": "PUT",
+                    "summary": "Update a movie",
+                    "notes": "Update a movie",
+                    "type": "moviesResponse",
+                    "nickname": "updateMovie",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "description": "Id of movie to update",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "string",
+                            "paramType": "path",
+                            "defaultValue": "00000000-0000-0000-0000-000000000000"
+                        },
+                        {
+                            "name": "movie",
+                            "description": "Movie to update",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "movieRequest",
+							"paramType": "body"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Invalid request body"
+                        },
+						{
+                            "code": 404,
+                            "message": "Movie not found"
+                        }
+                    ]
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "Delete a movie",
+                    "notes": "Delete a movie",
+                    "nickname": "deleteMovie",
+                    "produces": [
+                        "application/json",
+                        "application/xml"
+                    ],
+                    "parameters": [
+                        {
+                            "name": "movieId",
+                            "description": "Id of movie to delete",
+                            "required": true,
+                            "allowMultiple": false,
+                            "type": "string",
+                            "paramType": "path",
+                            "defaultValue": "00000000-0000-0000-0000-000000000000"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "Movie not found"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "models": {
+        "moviesResponse": {
+            "id": "",
+            "properties": {
+                "movies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "movie"
+                    }
+                },
+                "genres": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "genre"
+                    }
+                }
+            }
+        },
+        "genre": {
+            "id": "genre",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "required": true
+                },
+                "name": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        "movie": {
+            "id": "movie",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "required": true
+                },
+                "imdbId": {
+                    "type": "string",
+                    "required": true
+                },
+                "title": {
+                    "type": "string",
+                    "required": true
+                },
+                "rating": {
+                    "type": "float",
+                    "required": true,
+                    "minimum": 0,
+                    "maximum": 10
+                },
+                "director": {
+                    "type": "string",
+                    "required": true
+                },
+                "releaseDate": {
+                    "type": "Date",
+                    "required": true
+                },
+                "plot": {
+                    "type": "string",
+                    "required": true
+                },
+                "links": {
+                    "required": true,
+                    "type": "link"
+                }
+            }
+        },
+        "link": {
+            "id": "link",
+            "properties": {
+                "genres": {
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "movieRequest": {
+            "id": "movieRequest",
+            "properties": {
+                "imdbId": {
+                    "type": "string",
+                    "required": true
+                },
+                "title": {
+                    "type": "string",
+                    "required": true
+                },
+                "rating": {
+                    "type": "float",
+                    "required": true,
+                    "minimum": 0,
+                    "maximum": 10
+                },
+                "director": {
+                    "type": "string",
+                    "required": true
+                },
+                "releaseDate": {
+                    "type": "Date",
+                    "required": true
+                },
+                "plot": {
+                    "type": "string",
+                    "required": true
+                },
+                "genres": {
+                    "required": true,
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
